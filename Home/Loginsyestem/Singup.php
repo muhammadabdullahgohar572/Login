@@ -7,28 +7,39 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-    $exists = false; // Corrected typo
+    $exists = false;
 
+    // Corrected the query to check for existing username
+    $existsusrname = "SELECT * FROM `login` WHERE `username` = '$username'";
 
-    if ($password == $cpassword && $exists == false) {
-        $sql = "INSERT INTO login (username, password) VALUES ('$username', '$password')";
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            $showAlert = true;
+    $result = mysqli_query($conn, $existsusrname);
+
+    if ($result) {
+        $num = mysqli_num_rows($result);
+        if ($num > 0) {
+            $exists = true;
         } else {
-            $err = "Error: " . mysqli_error($conn);
-            echo $err;
+            $exists = false;
         }
-    }
-} else {
-    if (!isset($conn)) {
-        $errr = "You must submit the form";
-        // echo $errr;
+
+        if ($password == $cpassword && $exists == false) {
+            $sql = "INSERT INTO `login` (`username`, `password`) VALUES ('$username', '$password')";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                $showAlert = true;
+            } else {
+                $err = "Error: " . mysqli_error($conn);
+                echo $err;
+            }
+        } else if ($password != $cpassword) {
+            echo '<div class="alert alert-danger" role="alert">
+             <b>Error</b> Passwords do not match.
+           </div>';
+        }
     } else {
-        $errr = "Error: " . mysqli_error($conn);
-        echo $errr;
+        $err = "Error: " . mysqli_error($conn);
+        echo $err;
     }
-    // echo $errr;
 }
 
 ?>
@@ -38,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sing up</title>
+    <title>Sign up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -48,19 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <?php
     if ($showAlert) {
         echo '<div class="alert alert-success" role="alert">
-     <b>Success!</b> Your account is now created and you can login you like.
+     <b>Success!</b> Your account is now created and you can login.
        </div>';
+        header("location: ./Loginsystem.php");
+
     }
-
-    if (!$showAlert) {
-
+    if ($exists) {
         echo '<div class="alert alert-danger" role="alert">
-     <b>Error</b> Please Fill All filed.
-       </div>';
-    }
+            <b>Error</b> Username already exists.
+        </div>';
+        }
     ?>
-
-
     <div
         style="font-family: Arial, sans-serif;padding: 0 200px 0 200px; align-items: center;  background-color: #f0f0f0">
         <div class="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1)">
