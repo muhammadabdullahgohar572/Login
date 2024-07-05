@@ -9,7 +9,6 @@
 
 <body>
     <?php require "./Navbar.php" ?>
-
     <!-- 
     git remote add origin https://github.com/muhammadabdullahgohar572/Login.git
     git branch -M main
