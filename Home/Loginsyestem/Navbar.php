@@ -10,6 +10,14 @@
 </head>
 
 <body>
+    <?php
+    // session_start();
+    $logged = false;
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        $logged = true;
+    }
+    ?>
+
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./Index1.php">My Logo</a>
@@ -20,15 +28,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <?php if (!$logged): ?>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./Loginsystem.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="./Singup.php">Sing up</a>
+                        <a class="nav-link active" href="./Signup.php">Sign up</a>
                     </li>
+                    <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link active" href="./Logout.php">Logout</a>
                     </li>
+                    <?php endif; ?>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -37,6 +48,7 @@
             </div>
         </div>
     </nav>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>

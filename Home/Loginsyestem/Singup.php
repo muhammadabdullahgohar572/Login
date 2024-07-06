@@ -1,13 +1,13 @@
 <?php
 
 $showAlert = false;
+    $exists = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     include "./Serverconnect.php";
     $username = $_POST['username'];
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-    $exists = false;
 
     // Corrected the query to check for existing username
     $existsusrname = "SELECT * FROM `login` WHERE `username` = '$username'";

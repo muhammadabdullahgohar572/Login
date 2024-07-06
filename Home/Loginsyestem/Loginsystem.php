@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("location: ./index1.php");
         } else {
             $err = "Error: " . mysqli_error($conn);
-            echo $err;
+            // echo $err;
         }
     
 } else {
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // echo $errr;
     } else {
         $errr = "Error: " . mysqli_error($conn);
-        echo $errr;
+        // echo $errr;
     }
     // echo $errr;
 }
